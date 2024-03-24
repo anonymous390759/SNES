@@ -22,44 +22,27 @@ short direct = 0;
 double programBank = 0;
 short programCounter = 0xFFFC;
 
+struct threeNum {
+    int n1, n2, n3;
+};
 int main()
 {
- 
-    // Declare the file pointer
-    FILE* filePointer;
- 
-    // Declare the variable for the data to be read from
-    // file
-    char dataToBeRead[50];
- 
-    // Open the existing file GfgTest.c using fopen()
-    // in read mode using "r" attribute
-    filePointer = fopen("snesrom.snes", "rb");
- 
-    // Check if this filePointer is null
-    // which maybe if the file does not exist
-    if (filePointer == NULL) {
-        printf("snesrom.snes file failed to open.");
+    int n;
+    struct threeNum num;
+    FILE* fptr;
+    if ((fptr = fopen("snes.snes", "rb")) == NULL) {
+        printf("Error! opening file");
+        // If file pointer will return NULL
+        // Program will exit.
+        exit(1);
     }
-    else {
- 
-        printf("The file is now opened.\n");
- 
-        // Read the dataToBeRead from the file
-        // using fgets() method
-        while (fgets(dataToBeRead, 50, filePointer)
-               != NULL) {
- 
-            // Print the dataToBeRead
-            printf("%s", dataToBeRead);
-        }
- 
-        // Closing the file using fclose()
-        fclose(filePointer);
- 
-        printf(
-            "Data successfully read from file snestest.snes\n");
-        printf("The file is now closed.");
+    // else it will return a pointer to the file.
+    for (n = 1; n < 5; ++n) {
+        fread(&num, sizeof(struct threeNum), 1, fptr);
+        printf("n1: %d\tn2: %d\tn3: %d\n", num.n1, num.n2,
+               num.n3);
     }
+    fclose(fptr);
+ 
     return 0;
 }
